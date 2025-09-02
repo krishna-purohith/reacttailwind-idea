@@ -2,10 +2,12 @@ import {useState} from "react";
 
 interface Props {
     items: string[];
-    heading: string
+    heading: string;
+    onSelectItem: (item: string) => void;
 }
 
-const  ListGroup = ({ items, heading}: Props) => {
+
+const  ListGroup = ({ items, heading, onSelectItem}: Props) => {
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
 
     const handleClick = (index: number) => {
@@ -18,9 +20,19 @@ const  ListGroup = ({ items, heading}: Props) => {
             {items.length === 0 && <p>No items in the list</p>}
             <ul className='cursor-pointer divide-y divide-pink-200 border border-pink-200 rounded'>
             {items.map((item, index) => (
-                <li onClick={() => handleClick(index)}
+                <li
+
                     className={`p-2 ${selectedItem === index ? 'bg-pink-300 text-white' : ''}`}
-                    key={index}>{item}</li>
+
+                    key={item}
+                    onClick={() => {
+                        handleClick(index)
+                        onSelectItem(item)
+                    }
+                    }
+                >
+                    {item}
+                </li>
             ))}
             </ul>
         </>
